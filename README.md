@@ -11,6 +11,6 @@ day02: 项目环境搭建
 需要注意的点：
     1.mapper通常写在服务层，控制器层通常只写Controller
     2.控制器层与业务分离，依赖注入后，启动服务器会报错，这时就应引入dubbo
-    然后引入新的注解@service和@refence还有两个配置，注解都属于com.alibaba.dubbo包下
+    然后引入新的注解@service和@refence还有两个配置，注解都属于com.alibaba.dubbo包下。
     
 
