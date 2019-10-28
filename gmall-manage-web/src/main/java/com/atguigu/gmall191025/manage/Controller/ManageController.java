@@ -4,11 +4,19 @@ package com.atguigu.gmall191025.manage.Controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.atguigu.gmall191025.bean.*;
 import com.atguigu.gmall191025.service.ManageService;
+import org.apache.commons.lang3.StringUtils;
+import org.csource.common.MyException;
+import org.csource.fastdfs.ClientGlobal;
+import org.csource.fastdfs.StorageClient;
+import org.csource.fastdfs.TrackerClient;
+import org.csource.fastdfs.TrackerServer;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -49,6 +57,11 @@ public class ManageController {
     }
 
 
+    /**
+     * 通过属性查询属性值
+     * @param attrId
+     * @return
+     */
     @RequestMapping("getAttrValueList")
     public List<BaseAttrValue> getAttrValueList(String attrId){
 
@@ -60,4 +73,10 @@ public class ManageController {
 
         return attrInfo.getAttrValueList();
     }
+
+
+
+
+
+
 }
