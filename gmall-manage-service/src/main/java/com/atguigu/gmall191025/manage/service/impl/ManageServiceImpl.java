@@ -43,6 +43,17 @@ public class ManageServiceImpl implements ManageService {
     @Autowired
     private SpuSaleAttrValueMapper spuSaleAttrValueMapper;
 
+    @Autowired
+    private SkuInfoMapper skuInfoMapper;
+
+    @Autowired
+    private SkuImageMapper skuImageMapper;
+
+    @Autowired
+    private SkuAttrValueMapper skuAttrValueMapper;
+
+    @Autowired
+    private SkuSaleAttrValueMapper skuSaleAttrValueMapper;
 
 
     @Override
@@ -53,7 +64,7 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public List<BaseCatalog2> getCatalog2(String catalog1Id) {
 
-        BaseCatalog2 baseCatalog2=new BaseCatalog2();
+        BaseCatalog2 baseCatalog2 = new BaseCatalog2();
         baseCatalog2.setCatalog1Id(catalog1Id);
 
 
@@ -73,16 +84,13 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public List<BaseAttrInfo> getAttrList(String catalog3Id) {
 
-        BaseAttrInfo baseAttrInfo = new BaseAttrInfo();
-        baseAttrInfo.setCatalog3Id(catalog3Id);
-
-        return baseAttrInfoMapper.select(baseAttrInfo);
+        return baseAttrInfoMapper.selectBaseAttrInfoListByCatalog3Id(catalog3Id);
     }
 
 
     /**
-     *添加属性属性值与修改属性属性值保存的方法：
-     *添加时：
+     * 添加属性属性值与修改属性属性值保存的方法：
+     * 添加时：
      * 1.应先保存属性
      * 2.通过属性获取属性值的集合
      * 3.判断集合里是否为空，再遍历集合
@@ -90,6 +98,7 @@ public class ManageServiceImpl implements ManageService {
      * 修改时：
      * 1.判断是修改还是添加方法
      * 2.把原属性值全部清空
+     *
      * @param baseAttrInfo
      */
     @Transactional
@@ -97,10 +106,10 @@ public class ManageServiceImpl implements ManageService {
     public void saveAttrInfo(BaseAttrInfo baseAttrInfo) {
 
         //先判断是修改方法还是添加方法，判断主键是否为空
-        if(!StringUtils.isEmpty(baseAttrInfo.getId())){
+        if (!StringUtils.isEmpty(baseAttrInfo.getId())) {
             //修改
             baseAttrInfoMapper.updateByPrimaryKey(baseAttrInfo);
-        }else {
+        } else {
             //保存BaseAttrInfo的值
             baseAttrInfoMapper.insertSelective(baseAttrInfo);
         }
@@ -115,7 +124,7 @@ public class ManageServiceImpl implements ManageService {
 
         //判断attrValueList集合中的值是否为空
         //若先判断后面的条件可能会报空指针
-        if(attrValueList != null && attrValueList.size()>0){
+        if (attrValueList != null && attrValueList.size() > 0) {
             //满足条件遍历集合
             for (BaseAttrValue baseAttrValue : attrValueList) {
                 //要把AttrId也保存到表中
@@ -130,6 +139,7 @@ public class ManageServiceImpl implements ManageService {
      * 业务逻辑：
      * 1.把baseAttrValue中的数据封装到BaseAttrInfo中
      * 2.连同BaseAttrInfo里的数据一起返回到前端页面
+     *
      * @param attrId
      * @return
      */
@@ -178,7 +188,7 @@ public class ManageServiceImpl implements ManageService {
 
         List<SpuImage> spuImageList = spuInfo.getSpuImageList();
 
-        if(spuImageList != null && spuImageList.size()>0){
+        if (spuImageList != null && spuImageList.size() > 0) {
             for (SpuImage spuImage : spuImageList) {
                 spuImage.setSpuId(spuInfo.getId());
                 spuImageMapper.insert(spuImage);
@@ -187,14 +197,14 @@ public class ManageServiceImpl implements ManageService {
 
         List<SpuSaleAttr> spuSaleAttrList = spuInfo.getSpuSaleAttrList();
 
-        if(spuSaleAttrList != null && spuSaleAttrList.size()>0){
+        if (spuSaleAttrList != null && spuSaleAttrList.size() > 0) {
             for (SpuSaleAttr spuSaleAttr : spuSaleAttrList) {
                 spuSaleAttr.setSpuId(spuInfo.getId());
                 spuSaleAttrMapper.insert(spuSaleAttr);
 
                 List<SpuSaleAttrValue> spuSaleAttrValueList = spuSaleAttr.getSpuSaleAttrValueList();
 
-                if(spuSaleAttrValueList != null && spuSaleAttrValueList.size()>0){
+                if (spuSaleAttrValueList != null && spuSaleAttrValueList.size() > 0) {
                     for (SpuSaleAttrValue spuSaleAttrValue : spuSaleAttrValueList) {
                         spuSaleAttrValue.setSpuId(spuInfo.getId());
                         spuSaleAttrValueMapper.insertSelective(spuSaleAttrValue);
@@ -203,6 +213,56 @@ public class ManageServiceImpl implements ManageService {
 
             }
         }
+    }
+
+    @Override
+    public List<SpuImage> getSpuImageList(SpuImage spuImage) {
+
+        return spuImageMapper.select(spuImage);
+    }
+
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrList(String spuId) {
+
+        return spuSaleAttrMapper.selectSpuSaleAttrList(spuId);
+    }
+
+    @Override
+    public void saveSkuInfo(SkuInfo skuInfo) {
+        skuInfoMapper.insertSelective(skuInfo);
+
+        List<SkuImage> skuImageList = skuInfo.getSkuImageList();
+        if(checkListIsnull(skuImageList)){
+            for (SkuImage skuImage : skuImageList) {
+                skuImage.setSkuId(skuInfo.getId());
+                skuImageMapper.insertSelective(skuImage);
+            }
+        }
+
+        List<SkuAttrValue> skuAttrValueList = skuInfo.getSkuAttrValueList();
+        if(checkListIsnull(skuAttrValueList)){
+            for (SkuAttrValue skuAttrValue : skuAttrValueList) {
+                skuAttrValue.setSkuId(skuInfo.getId());
+                skuAttrValueMapper.insertSelective(skuAttrValue);
+            }
+        }
+
+        List<SkuSaleAttrValue> skuSaleAttrValueList = skuInfo.getSkuSaleAttrValueList();
+        if(checkListIsnull(skuSaleAttrValueList)){
+            for (SkuSaleAttrValue skuSaleAttrValue : skuSaleAttrValueList) {
+                skuSaleAttrValue.setSkuId(skuInfo.getId());
+                skuSaleAttrValueMapper.insertSelective(skuSaleAttrValue);
+            }
+        }
+
+    }
+
+    public <T> boolean  checkListIsnull(List<T> skuAttrValueList) {
+        boolean flag = false;
+        if (skuAttrValueList!=null && skuAttrValueList.size()>0){
+            flag = true;
+        }
+        return flag;
     }
 
 

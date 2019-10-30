@@ -42,8 +42,14 @@ public class ManageController {
         return manageService.getCatalog3(catalog2Id);
     }
 
+    /**
+     * 回显平台属性和平台属性值
+     * 这里要用到多表联合查询
+     * @param catalog3Id
+     * @return
+     */
     @RequestMapping("attrInfoList")
-    public List<BaseAttrInfo> getAttrInfo(String catalog3Id){
+    public List<BaseAttrInfo> attrInfoList(String catalog3Id){
 
         return manageService.getAttrList(catalog3Id);
     }
