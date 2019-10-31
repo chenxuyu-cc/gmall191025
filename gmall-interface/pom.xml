@@ -13,6 +13,7 @@
     <artifactId>gmall-interface</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.atguigu.gmall191025</groupId>
             <artifactId>gmall-bean</artifactId>

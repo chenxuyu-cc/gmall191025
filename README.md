@@ -35,5 +35,10 @@ day05：后台功能开发
     PS：回显属性时用到了mybatis（半自动的ORM框架），多表联合查询，再编写mapper.xml文件时，
     一定要弄清每个引号里的引用地址，方法，实体类时什么，mybatis配置文件要有，application配置文件要配置mapper扫描
 
+day06：功能开发
+    1.商品详情页面信息回显，进行页面渲染，以json的形式传到前端，整合thymeleaf
+    2.难点，回显销售属性和销售属性值	spuSaleAttr	spuSaleAttrValue skuSaleAttrValue
+    3.难点2，用户点击不同的销售属性值时，需要切换商品
+    
     
 

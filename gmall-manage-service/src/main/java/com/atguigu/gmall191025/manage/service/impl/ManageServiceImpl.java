@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ManageServiceImpl implements ManageService {
@@ -255,6 +257,47 @@ public class ManageServiceImpl implements ManageService {
             }
         }
 
+    }
+
+    /**
+     * 获取商品详情
+     * @param skuId
+     * @return
+     */
+    @Override
+    public SkuInfo getSkuInfo(String skuId) {
+        SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
+
+        SkuImage skuImage = new SkuImage();
+        skuImage.setSkuId(skuId);
+        List<SkuImage> skuImageList = skuImageMapper.select(skuImage);
+
+        skuInfo.setSkuImageList(skuImageList);
+        return skuInfo;
+    }
+
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(SkuInfo skuInfo) {
+
+        return spuSaleAttrMapper.selectSpuSaleAttrListCheckBySku(skuInfo.getId(),skuInfo.getSpuId());
+    }
+
+    @Override
+    public List<SkuSaleAttrValue> getSkuSaleAttrValueListBySpu(String spuId) {
+
+        return skuSaleAttrValueMapper.selectSkuSaleAttrValueListBySpu(spuId);
+    }
+
+    @Override
+    public Map getSkuValueIdsMap(String spuId) {
+        List<Map> mapList = skuSaleAttrValueMapper.getSaleAttrValuesBySpu(spuId);
+
+        HashMap<Object, Object> map = new HashMap<>();
+        for (Map skuMap : mapList) {
+            map.put(skuMap.get("value_ids"),skuMap.get("sku_id"));
+        }
+
+        return map;
     }
 
     public <T> boolean  checkListIsnull(List<T> skuAttrValueList) {

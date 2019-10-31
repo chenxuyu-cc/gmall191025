@@ -3,6 +3,7 @@ package com.atguigu.gmall191025.service;
 import com.atguigu.gmall191025.bean.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ManageService {
 
@@ -30,4 +31,12 @@ public interface ManageService {
     List<SpuSaleAttr> getSpuSaleAttrList(String spuId);
 
     void saveSkuInfo(SkuInfo skuInfo);
+
+    SkuInfo getSkuInfo(String skuId);
+
+    List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(SkuInfo skuInfo);
+
+    List<SkuSaleAttrValue> getSkuSaleAttrValueListBySpu(String spuId);
+
+    Map getSkuValueIdsMap(String spuId);
 }
