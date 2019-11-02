@@ -40,5 +40,12 @@ day06：功能开发
     2.难点，回显销售属性和销售属性值	spuSaleAttr	spuSaleAttrValue skuSaleAttrValue
     3.难点2，用户点击不同的销售属性值时，需要切换商品
     
+day07:功能开发
+    1.显示商品详情功能优化，利用到了redis还有分布式锁
+        1.set和redission
+    2.前端页面搭建，配置hosts域名
+    
+    
+    
     
 
