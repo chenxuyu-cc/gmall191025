@@ -45,6 +45,15 @@ day07:功能开发
         1.set和redission
     2.前端页面搭建，配置hosts域名
     
+day08:功能开发
+    1.添加es搜索引擎功能
+        项目创建：gmall-list-service gmall-list-web
+        a）创建mapping
+        实现商品的上架 mysql --- > es
+        数据对拷
+        b）商品的检索，通过keyword和分类检索
+        用到两个实体类，创建对象的思想，一个作为接受的参数，一个为返回值类型，作为接受结果集
+    
     
     
     
