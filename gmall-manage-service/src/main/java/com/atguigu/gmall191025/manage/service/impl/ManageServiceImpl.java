@@ -8,13 +8,13 @@ import com.atguigu.gmall191025.bean.*;
 import com.atguigu.gmall191025.manage.constant.ManageConst;
 import com.atguigu.gmall191025.manage.mapper.*;
 import com.atguigu.gmall191025.service.ManageService;
+import org.apache.commons.lang3.StringUtils;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 
 import java.sql.Time;
@@ -422,6 +422,15 @@ public class ManageServiceImpl implements ManageService {
         }
 
         return map;
+    }
+
+    @Override
+    public List<BaseAttrInfo> getAttrList(List<String> attrValueIdList) {
+
+        String attrValueIds = StringUtils.join(attrValueIdList.toArray(), ",");
+
+        return baseAttrInfoMapper.selectAttrInfoListByIds(attrValueIds);
+
     }
 
     public <T> boolean  checkListIsnull(List<T> skuAttrValueList) {

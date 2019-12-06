@@ -19,4 +19,10 @@ public interface ListService {
      * @return
      */
     SkuLsResult search(SkuLsParams skuLsParams);
+
+    /**
+     * 热度排名
+     * @param skuId
+     */
+    public void incrHotScore(String skuId);
 }

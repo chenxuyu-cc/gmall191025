@@ -26,5 +26,9 @@ public interface UserService {
     List<UserAddress> getUserAddressByUserId(String userId);
 
     List<UserAddress> getUserAddressByUserId(UserAddress userAddress);
+
+    UserInfo login(UserInfo userInfo);
+
+    UserInfo verify(String userId);
 }
 
